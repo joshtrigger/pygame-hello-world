@@ -1,26 +1,37 @@
-import pygame,sys
-from pygame.locals import * 
+import pygame
+import sys
+from pygame.locals import *
 
 pygame.init()
 
 screen = pygame.display.set_mode((800, 600))
-run=True
-blue = (0, 0, 255)
-yellow = (255, 255, 0)
-red = (255,0,0)
-backgroud=yellow
+run = True
+background = (255, 255, 255)
+font = pygame.font.SysFont('Myriad Pro', 48, 1, 1)
+text = font.render('Hello', 1, (0, 0, 255), (255, 255, 255))
+clock = pygame.time.Clock()
+text_size = text.get_size()
 
 while run:
-  for event in pygame.event.get():
-    if event.type==pygame.QUIT:
-      run = False;
-    elif event.type == KEYDOWN and event.key == K_b:
-      backgroud=blue
-    elif event.type == KEYDOWN and event.key == K_r:
-      backgroud=red
-    
-    pygame.display.set_caption('Snake Game')
-    screen.fill(backgroud)
+    clock.tick(40)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            run = False
+
+    mouse_position = pygame.mouse.get_pos()
+    x, y = mouse_position
+
+    screen.fill(background)
+    pygame.display.set_caption('Game')
+
+    if x+text_size[0] > 800:
+        x = 800-text_size[0]
+
+    if y+text_size[1] > 600:
+        y = 600-text_size[1]
+
+    screen.blit(text, (x, y))
     pygame.display.update()
+
 
 pygame.quit()
